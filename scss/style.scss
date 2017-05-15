@@ -3,21 +3,23 @@
 @include foundation-global-styles;
 @include foundation-grid; 
 
+
 .grid-container {
-    width: 100%; 
+    width: 50%; 
     max-width: 1200px;    
+    margin-left: 30%; 
 }
 
 td {
     border: 1px solid black; 
     border-spacing: 10px; 
-    height: 50px; 
+    height: 30px; 
 }
 
 tr {
     border: 1px solid black; 
     border-spacing: 10px; 
-    height: 50px; 
+    height: 30px; 
 }
 
 button {
