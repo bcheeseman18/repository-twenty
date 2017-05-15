@@ -1,0 +1,36 @@
+@import '../node_modules/foundation-sites/scss/foundation'; 
+
+@include foundation-global-styles;
+@include foundation-grid; 
+
+.grid-container {
+    width: 100%; 
+    max-width: 1200px;    
+}
+
+td {
+    border: 1px solid black; 
+    border-spacing: 10px; 
+    height: 50px; 
+}
+
+tr {
+    border: 1px solid black; 
+    border-spacing: 10px; 
+    height: 50px; 
+}
+
+button {
+    border: 1px solid black; 
+    border-radius: 3px; 
+    margin-bottom: 5%; 
+    background: grey; 
+}
+
+.highlight {
+    background: yellow; 
+}
+
+.passenger {
+    background: black; 
+}
