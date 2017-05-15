@@ -18,8 +18,8 @@ window.addEventListener('load', function () {
     let taxiModel = require('./taximodel'); //taxiModel/taxiView is a constructor. both words should be capitalized
     let taxiView = require('./taxiview');
     let taxi2View = require('./taxi2view');
-    let passView = require('./passview'); 
-    let endView = require('./endview'); 
+    let passView = require('./passview');
+    let endView = require('./endview');
 
     let taxiGrid = new taxiModel(); // 1. Create an instance of a model 
     taxiGrid.fuel = 30;
@@ -27,10 +27,10 @@ window.addEventListener('load', function () {
     taxiGrid.y = 0;
     taxiGrid.type = 'hybrid';
     taxiGrid.fare = 10;
-    taxiGrid.passx = Math.floor(Math.random() * 19); 
-    taxiGrid.passy = Math.floor(Math.random() * 19); 
-    taxiGrid.final = 0; 
-    taxiGrid.end = ''; 
+    taxiGrid.passx = Math.floor(Math.random() * 19);
+    taxiGrid.passy = Math.floor(Math.random() * 19);
+    taxiGrid.final = 0;
+    taxiGrid.end = '';
 
     let tv = new taxiView({ // 2. Create an instance of a view
         // Anytime I create a view, I specify whwere it shows up in the DOM (el) and what 
@@ -51,10 +51,10 @@ window.addEventListener('load', function () {
 
     let pv = new passView({
         el: document.querySelector('#passloc'),
-        model: taxiGrid, 
-    }); 
+        model: taxiGrid,
+    });
 
-    pv.render(); 
+    pv.render();
 
     let sel = document.querySelector('.passenger');
     sel.classList.remove('passenger');
@@ -63,10 +63,10 @@ window.addEventListener('load', function () {
 
     let ev = new endView({
         el: document.querySelector('#gameOver'),
-        model: taxiGrid, 
+        model: taxiGrid,
     });
 
-    ev.render(); 
+    ev.render();
 
 
     let leftBtn = document.querySelector('#left');
@@ -91,20 +91,20 @@ window.addEventListener('load', function () {
         taxiGrid.x -= 1;
         // taxiGrid.fuel -= 1;
         if (taxiGrid.type === 'hybrid') {
-            taxiGrid.fuel -=1; 
-        } else {
-            taxiGrid.fuel -= 2; 
-        }
-    });
-
-    rightBtn.addEventListener('click', function () {
-        taxiGrid.x += 1;
-        // taxiGrid.fuel -= 1;
-        if (taxiGrid.type === 'hybrid') {
             taxiGrid.fuel -= 1;
         } else {
             taxiGrid.fuel -= 2;
         }
+    });
+
+    rightBtn.addEventListener('click', function () {
+            taxiGrid.x += 1;
+            // taxiGrid.fuel -= 1;
+            if (taxiGrid.type === 'hybrid') {
+                taxiGrid.fuel -= 1;
+            } else {
+                taxiGrid.fuel -= 2;
+            }
     });
 
     upBtn.addEventListener('click', function () {
@@ -141,5 +141,20 @@ window.addEventListener('load', function () {
         selpass.classList.remove('passenger');
         let contpass = document.querySelector('.grid-container');
         contpass.rows[taxiGrid.passy].cells[taxiGrid.passx].classList.add('passenger');
+    });
+
+    taxiGrid.on('change:fuel', function () {
+        if (taxiGrid.x === taxiGrid.passx && taxiGrid.y === taxiGrid.passy) {
+            taxiGrid.passx = Math.floor(Math.random() * 19);
+            taxiGrid.passy = Math.floor(Math.random() * 19);
+            taxiGrid.final += taxiGrid.fare;
+            console.log('picked up');
+        }
+        if (taxiGrid.fuel <= 0) {
+            taxiGrid.fuel = 0;
+            taxiGrid.end = 'Game Over!'; 
+            console.log('game over');
+        }
+
     });
 }); 
