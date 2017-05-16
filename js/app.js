@@ -20,6 +20,13 @@ window.addEventListener('load', function () {
     let taxi2View = require('./taxi2view');
     let passView = require('./passview');
     let endView = require('./endview');
+    let mpView = require('./multipassview'); 
+    let passengerView = require('./passenger'); 
+
+    let passModel = require('./passmodel'); 
+    let multiPass = require('./multipass'); 
+
+    let passengers = new multiPass(); 
 
     let taxiGrid = new taxiModel(); // 1. Create an instance of a model 
     taxiGrid.fuel = 30;
@@ -68,6 +75,10 @@ window.addEventListener('load', function () {
 
     ev.render();
 
+    let mp = new mpView ({
+        el: document.querySelector(), 
+        model: passengers, 
+    }); 
 
     let leftBtn = document.querySelector('#left');
     let rightBtn = document.querySelector('#right');
@@ -147,14 +158,41 @@ window.addEventListener('load', function () {
         if (taxiGrid.x === taxiGrid.passx && taxiGrid.y === taxiGrid.passy) {
             taxiGrid.passx = Math.floor(Math.random() * 19);
             taxiGrid.passy = Math.floor(Math.random() * 19);
+            passengers.generatePass();
+            passengers.updatePass('pickedUp');
             taxiGrid.final += taxiGrid.fare;
             console.log('picked up');
         }
         if (taxiGrid.fuel <= 0) {
             taxiGrid.fuel = 0;
             taxiGrid.end = 'Game Over!'; 
-            console.log('game over');
         }
 
     });
+
+
+     function generatePass () {
+        this.add(new PassModel({
+            name: namesList(),
+            occupation: jobsList(),
+            status: 'waiting',
+        }));
+    }
+
+    function namesList () {
+        let names = ['Jim', 'Dwight', 'Michael', 'Pam', 'Phylis', 'Erin', 'Stanley', 'Creed']
+        let pickName = names[Math.floor(Math.random() * names.length)];
+        return pickName;
+    }
+
+    function jobsList() {
+        let jobs = ['paper salesman', 'karate instructor', 'business owner', 'manager', 'quality control', 'bike salesman', 'receptionist'];
+        let pickJob = jobs[Math.floor(Math.random() * jobs.length)];
+        return pickJob;
+    }
+
+    function updatePass (status) {
+        this.at(this.length - 1).status = status;
+    }
+
 }); 
